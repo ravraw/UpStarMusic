@@ -1,5 +1,5 @@
 // Todo: Create Artist Model
-const mongoose = reguire("mongoose");
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const AlbumSchema = require("./album");
 const ArtistSchema = new Schema({
