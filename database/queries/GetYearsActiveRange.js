@@ -6,14 +6,18 @@ const Artist = require("../models/artist");
  * containing the min and max yearsActive, like { min: 0, max: 14 }.
  */
 module.exports = () => {
-  Artist.find({})
+  const minActive = Artist.find({})
     .sort({ yearsActive: 1 })
-    .then(users => {
-      let min = users[0].yearsActive;
-      let max = users[users.length - 1].yearsActive;
-      return {
-        min: min,
-        max: max
-      };
-    });
+    .limit(1)
+    .then(artists => artists[0].yearsActive);
+  const maxActive = Artist.find({})
+    .sort({ yearsActive: -1 })
+    .limit(1)
+    .then(artists => artists[0].yearsActive);
+  return Promise.all([minActive, maxActive]).then(result => {
+    return {
+      min: result[0],
+      max: result[1]
+    };
+  });
 };
